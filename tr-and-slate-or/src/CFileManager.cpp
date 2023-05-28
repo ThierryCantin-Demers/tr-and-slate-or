@@ -1,6 +1,7 @@
 #include "CFileManager.h"
 
 #include <filesystem>
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -13,6 +14,12 @@ namespace util
         try
         {
             std::ifstream fileStream( filePath_ );
+
+            if ( !fileStream.is_open() )
+            {
+                return std::nullopt;
+            }
+
             return fileStream;
         }
         catch ( std::ifstream::failure e )

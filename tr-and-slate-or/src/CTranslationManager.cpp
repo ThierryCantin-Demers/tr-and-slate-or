@@ -54,7 +54,7 @@ namespace util
 
         for ( const auto& translation : json.items() )
         {
-            m_translations[translation.key()][m_language] = translation.value();
+            m_translations[ translation.key() ][ m_language ] = translation.value();
         }
     }
 
