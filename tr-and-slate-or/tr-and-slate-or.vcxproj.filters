@@ -18,18 +18,18 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CFileManager.cpp">
+    <ClCompile Include="src\FileManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\CTranslationManager.cpp">
+    <ClCompile Include="src\TranslationManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CTranslationManager.h">
+    <ClInclude Include="src\TranslationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\CFileManager.h">
+    <ClInclude Include="src\FileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

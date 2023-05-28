@@ -1,20 +1,20 @@
-#include "CTranslationManager.h"
-#include "CFileManager.h"
+#include "TranslationManager.h"
+#include "FileManager.h"
 
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
 
-namespace util
+namespace translation
 {
     /**
      * \brief Returns the singleton instance of the translation manager.
      * \return The singleton instance of the translation manager.
      */
-    CTranslationManager& CTranslationManager::getInstance()
+    TranslationManager& TranslationManager::getInstance()
     {
-        static CTranslationManager instance;
+        static TranslationManager instance;
 
         return instance;
     }
@@ -24,7 +24,7 @@ namespace util
      * \param toTranslate_ The string to translate.
      * \return The translated string.
      */
-    const std::string& CTranslationManager::getTranslation( const std::string& toTranslate_ ) const
+    const std::string& TranslationManager::getTranslation( const std::string& toTranslate_ ) const
     {
         const auto string_iterator = m_translations.find( toTranslate_ );
 
@@ -47,7 +47,7 @@ namespace util
      * \brief Loads the translations from a file stream.
      * \param fileStream_ The file stream to load the translations from.
      */
-    void CTranslationManager::getTranslationsFromFile( std::ifstream& fileStream_ )
+    void TranslationManager::getTranslationsFromFile( std::ifstream& fileStream_ )
     {
         nlohmann::json json;
         fileStream_ >> json;
@@ -62,7 +62,7 @@ namespace util
      * \brief Changes the language of the translation manager, and loads the language file if it is not already loaded.
      * \param language_ the language to change to.
      */
-    void CTranslationManager::setLanguage( const std::string& language_ )
+    void TranslationManager::setLanguage( const std::string& language_ )
     {
         m_language = language_;
 
@@ -72,7 +72,7 @@ namespace util
 
             const std::string languageFilePath = WORKING_DIR + "\\translations\\" + language_ + ".json";
 
-            std::optional< std::ifstream > fileStream = CFileManager::getFileStream(
+            std::optional< std::ifstream > fileStream = FileManager::getFileStream(
                 languageFilePath );
 
             if ( fileStream.has_value() )
@@ -81,4 +81,9 @@ namespace util
             }
         }
     }
+
+    /**
+     * \brief Constructs a translation manager with a base path.
+     */
+    TranslationManager::TranslationManager(): m_basePath( WORKING_DIR + "\\translations" ) { }
 }

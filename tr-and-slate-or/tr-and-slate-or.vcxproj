@@ -155,13 +155,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\CFileManager.cpp" />
-    <ClCompile Include="src\CTranslationManager.cpp" />
+    <ClCompile Include="src\FileManager.cpp" />
+    <ClCompile Include="src\TranslationManager.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CFileManager.h" />
-    <ClInclude Include="src\CTranslationManager.h" />
+    <ClInclude Include="src\FileManager.h" />
+    <ClInclude Include="src\TranslationManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

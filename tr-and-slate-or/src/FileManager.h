@@ -5,11 +5,11 @@
 #include <filesystem>
 #include <vector>
 
-#define WORKING_DIR util::CFileManager::getCurrentWorkingDirectory()
+#define WORKING_DIR translation::FileManager::getCurrentWorkingDirectory()
 
-namespace util
+namespace translation
 {
-    class CFileManager
+    class FileManager
     {
     public:
         static std::optional< std::ifstream > getFileStream( const std::string& filePath_ );

@@ -1,13 +1,11 @@
 #include <iostream>
-//#include "nlohmann/json.hpp"
-#include "CTranslationManager.h"
+#include "TranslationManager.h"
 
-//using json = nlohmann::json;
-using namespace util;
+using namespace translation;
 
 int main()
 {
-    CTranslationManager::getInstance().setLanguage( "fr" );
+    TranslationManager::getInstance().setLanguage( "fr" );
     std::cout << TR( "My horse is fat." ) << std::endl;
     std::cout << "Hello, World!" << std::endl;
 }
