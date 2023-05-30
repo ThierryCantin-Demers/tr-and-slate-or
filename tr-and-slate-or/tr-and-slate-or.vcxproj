@@ -163,6 +163,9 @@
     <ClInclude Include="src\FileManager.h" />
     <ClInclude Include="src\TranslationManager.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="translations\languages.json" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

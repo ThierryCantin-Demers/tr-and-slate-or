@@ -23,7 +23,7 @@ namespace translation
 
         std::ifstream fileStream( filePath_ );
 
-        if ( !fileStream.is_open() )
+        if ( !fileStream.is_open() || fileStream.fail() )
         {
             return std::nullopt;
         }

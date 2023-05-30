@@ -13,9 +13,10 @@ namespace translation
     {
     public:
         static TranslationManager& getInstance();
+        void loadLanguageCodes( const std::string& languageCodesFilePath_ );
 
         const std::string& getTranslation( const std::string& toTranslate_ ) const;
-        void getTranslationsFromFile( std::ifstream& fileStream_ );
+        void getTranslationsFromJSONFile( std::ifstream& fileStream_ );
 
         void setLanguage( const std::string& language_ );
         const std::string& getCurrentLanguage() const { return m_language; }
@@ -26,6 +27,7 @@ namespace translation
         TranslationManager();
 
         std::unordered_map< std::string, std::unordered_map< std::string, std::string > > m_translations;
+        std::unordered_map< std::string, std::string > m_languageCodes;
         std::string m_language;
         std::vector< std::string > m_loadedLanguages;
         std::string m_basePath;

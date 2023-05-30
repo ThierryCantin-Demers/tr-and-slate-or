@@ -19,6 +19,31 @@ namespace translation
         return instance;
     }
 
+    void TranslationManager::loadLanguageCodes( const std::string& languageCodesFilePath_ )
+    {
+        std::optional< std::ifstream > fileStream = FileManager::getFileStream(
+            languageCodesFilePath_ );
+
+        if ( fileStream.has_value() )
+        {
+            nlohmann::json json;
+            *fileStream >> json;
+
+            for ( auto& language : json.items() )
+            {
+                std::string languageName = language.key();
+
+                std::transform( languageName.begin(), languageName.end(), languageName.begin(),
+                                []( const char& c )
+                                {
+                                    return std::tolower( c );
+                                } );
+
+                m_languageCodes[ languageName ] = language.value();
+            }
+        }
+    }
+
     /**
      * \brief Returns the translation for the given string in the currently selected app language.
      * \param toTranslate_ The string to translate.
@@ -47,7 +72,7 @@ namespace translation
      * \brief Loads the translations from a file stream.
      * \param fileStream_ The file stream to load the translations from.
      */
-    void TranslationManager::getTranslationsFromFile( std::ifstream& fileStream_ )
+    void TranslationManager::getTranslationsFromJSONFile( std::ifstream& fileStream_ )
     {
         nlohmann::json json;
         fileStream_ >> json;
@@ -56,6 +81,8 @@ namespace translation
         {
             m_translations[ translation.key() ][ m_language ] = translation.value();
         }
+
+        fileStream_.close();
     }
 
     /**
@@ -64,20 +91,37 @@ namespace translation
      */
     void TranslationManager::setLanguage( const std::string& language_ )
     {
-        m_language = language_;
+        std::string language = language_;
 
-        if ( std::ranges::find( m_loadedLanguages, language_ ) == m_loadedLanguages.end() )
+        std::ranges::transform( language.begin(), language.end(), language.begin(),
+                                []( const char& c )
+                                {
+                                    return std::tolower( c );
+                                } );
+
+        const auto language_iterator = m_languageCodes.find( language );
+
+        if ( language_iterator == m_languageCodes.end() )
         {
-            m_loadedLanguages.push_back( language_ );
+            return;
+        }
 
-            const std::string languageFilePath = WORKING_DIR + "\\translations\\" + language_ + ".json";
+        const std::string& languageCode = language_iterator->second;
+
+        m_language = languageCode;
+
+        if ( std::ranges::find( m_loadedLanguages, languageCode ) == m_loadedLanguages.end() )
+        {
+            m_loadedLanguages.push_back( languageCode );
+
+            const std::string languageFilePath = m_basePath + languageCode + ".json";
 
             std::optional< std::ifstream > fileStream = FileManager::getFileStream(
                 languageFilePath );
 
             if ( fileStream.has_value() )
             {
-                getTranslationsFromFile( *fileStream );
+                getTranslationsFromJSONFile( *fileStream );
             }
         }
     }
@@ -85,5 +129,8 @@ namespace translation
     /**
      * \brief Constructs a translation manager with a base path.
      */
-    TranslationManager::TranslationManager(): m_basePath( WORKING_DIR + "\\translations" ) { }
+    TranslationManager::TranslationManager() : m_basePath( WORKING_DIR + "\\translations\\" )
+    {
+        loadLanguageCodes( m_basePath + "languages.json" );
+    }
 }
