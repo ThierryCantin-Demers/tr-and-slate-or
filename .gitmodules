@@ -1,6 +1,0 @@
-[submodule "tr-and-slate-or/external_dependencies/json"]
-	path = tr-and-slate-or/external_dependencies/json
-	url = https://github.com/nlohmann/json/
-[submodule "tr-and-slate-or/external_dependencies/simpleini"]
-	path = tr-and-slate-or/external_dependencies/simpleini
-	url = https://github.com/brofield/simpleini

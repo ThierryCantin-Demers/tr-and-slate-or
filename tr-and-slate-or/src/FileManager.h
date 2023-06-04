@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef FILE_MANAGER_H
+#define FILE_MANAGER_H
+
 #include <string>
 #include <fstream>
 #include <optional>
@@ -17,3 +21,5 @@ namespace translation
         static std::vector< std::string > ListFilesInDirectory( const std::string& directoryPath_ );
     };
 }
+
+#endif // FILE_MANAGER_H

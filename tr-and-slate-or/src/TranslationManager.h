@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef TRANSLATION_MANAGER_H
+#define TRANSLATION_MANAGER_H
+
 #include <string>
 #include <unordered_map>
 
@@ -40,3 +43,4 @@ namespace translation
         std::string m_currentLanguage;
     };
 }
+#endif // TRANSLATION_MANAGER_H

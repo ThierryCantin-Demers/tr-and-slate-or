@@ -1,11 +1,8 @@
 #include "FileManager.h"
 
 #include <filesystem>
-#include <iostream>
 #include <string>
 #include <vector>
-
-#include <nlohmann/json.hpp>
 
 namespace translation
 {
@@ -29,7 +26,6 @@ namespace translation
         }
 
         return fileStream;
-
     }
 
     /**
