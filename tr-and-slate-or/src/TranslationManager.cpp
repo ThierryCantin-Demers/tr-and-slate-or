@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <SimpleIni.h>
 
 
 namespace translation
@@ -132,6 +133,20 @@ namespace translation
 
         if ( languageIterator == m_validLanguageCodes.end() )
         {
+            // If the language is not found, check if the language code is valid, return it if it is.
+            const auto isLanguageCodeValid = [&targetLanguage_]( const auto& it )
+            {
+                return it.second == targetLanguage_;
+            };
+
+            const auto it = std::ranges::find_if( m_validLanguageCodes.begin(), m_validLanguageCodes.end(),
+                                                  isLanguageCodeValid );
+
+            if ( it != m_validLanguageCodes.end() )
+            {
+                return it->second;
+            }
+
             return std::nullopt;
         }
 
@@ -149,5 +164,16 @@ namespace translation
             LoadValidLanguageCodesFromJsonFile( *fileStream );
             fileStream->close();
         }
+
+        CSimpleIniA ini;
+        ini.SetUnicode();
+        SI_Error rc = ini.LoadFile( "configs.ini" );
+
+        if ( rc < 0 )
+        {
+            SetLanguage( "en" );
+        }
+
+        SetLanguage( ini.GetValue( "Config", "Language", "en" ) );
     }
 }

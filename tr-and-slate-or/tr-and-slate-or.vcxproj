@@ -94,7 +94,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include;$(SolutionDir)tr-and-slate-or\external_dependencies\simpleini</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,7 +111,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include;$(SolutionDir)tr-and-slate-or\external_dependencies\simpleini</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,7 +128,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include;$(SolutionDir)tr-and-slate-or\external_dependencies\simpleini</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,7 +145,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)tr-and-slate-or\external_dependencies\json\include;$(SolutionDir)tr-and-slate-or\external_dependencies\simpleini</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
