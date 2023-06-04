@@ -12,36 +12,36 @@ namespace translation
      * \brief Returns the singleton instance of the translation manager.
      * \return The singleton instance of the translation manager.
      */
-    TranslationManager& TranslationManager::getInstance()
+    TranslationManager& TranslationManager::GetInstance()
     {
         static TranslationManager instance;
 
         return instance;
     }
 
-    void TranslationManager::loadLanguageCodes( const std::string& languageCodesFilePath_ )
+    /**
+     * \brief Loads the language codes from the given file path. A language is considered valid if it has an entry in the given json file. The language codes are loaded into a map, where the key is the language name in lowercase, and the value is the language code.
+     * \param languageCodesFileStream_ The file path to load the language codes from.
+     */
+    void TranslationManager::LoadValidLanguageCodesFromJsonFile( std::ifstream& languageCodesFileStream_ )
     {
-        std::optional< std::ifstream > fileStream = FileManager::getFileStream(
-            languageCodesFilePath_ );
+        nlohmann::json json;
+        languageCodesFileStream_ >> json;
 
-        if ( fileStream.has_value() )
+        for ( auto& language : json.items() )
         {
-            nlohmann::json json;
-            *fileStream >> json;
+            std::string languageName = language.key();
 
-            for ( auto& language : json.items() )
-            {
-                std::string languageName = language.key();
+            std::ranges::transform( languageName.begin(), languageName.end(), languageName.begin(),
+                                    []( const char& c )
+                                    {
+                                        return std::tolower( c );
+                                    } );
 
-                std::transform( languageName.begin(), languageName.end(), languageName.begin(),
-                                []( const char& c )
-                                {
-                                    return std::tolower( c );
-                                } );
-
-                m_languageCodes[ languageName ] = language.value();
-            }
+            m_validLanguageCodes[ languageName ] = language.value();
         }
+
+        languageCodesFileStream_.close();
     }
 
     /**
@@ -49,14 +49,14 @@ namespace translation
      * \param toTranslate_ The string to translate.
      * \return The translated string.
      */
-    const std::string& TranslationManager::getTranslation( const std::string& toTranslate_ ) const
+    const std::string& TranslationManager::GetTranslation( const std::string& toTranslate_ ) const
     {
-        const auto string_iterator = m_translations.find( toTranslate_ );
+        const auto string_iterator = m_loadedTranslations.find( toTranslate_ );
 
         // If the string is not found, return the string as is.
-        if ( string_iterator != m_translations.end() )
+        if ( string_iterator != m_loadedTranslations.end() )
         {
-            const auto language_iterator = string_iterator->second.find( m_language );
+            const auto language_iterator = string_iterator->second.find( m_currentLanguage );
 
             // If the language is not found for the language, return the string as is.
             if ( language_iterator != string_iterator->second.end() )
@@ -72,14 +72,14 @@ namespace translation
      * \brief Loads the translations from a file stream.
      * \param fileStream_ The file stream to load the translations from.
      */
-    void TranslationManager::getTranslationsFromJSONFile( std::ifstream& fileStream_ )
+    void TranslationManager::GetTranslationsFromJsonFile( std::ifstream& fileStream_ )
     {
         nlohmann::json json;
         fileStream_ >> json;
 
         for ( const auto& translation : json.items() )
         {
-            m_translations[ translation.key() ][ m_language ] = translation.value();
+            m_loadedTranslations[ translation.key() ][ m_currentLanguage ] = translation.value();
         }
 
         fileStream_.close();
@@ -87,50 +87,67 @@ namespace translation
 
     /**
      * \brief Changes the language of the translation manager, and loads the language file if it is not already loaded.
-     * \param language_ the language to change to.
+     * \param targetLanguage_ the language to change to.
      */
-    void TranslationManager::setLanguage( const std::string& language_ )
+    void TranslationManager::SetLanguage( const std::string& targetLanguage_ )
     {
-        std::string language = language_;
+        const std::optional< std::string > languageCode = IsLanguageValid( targetLanguage_ );
 
-        std::ranges::transform( language.begin(), language.end(), language.begin(),
-                                []( const char& c )
-                                {
-                                    return std::tolower( c );
-                                } );
-
-        const auto language_iterator = m_languageCodes.find( language );
-
-        if ( language_iterator == m_languageCodes.end() )
+        if ( !languageCode.has_value() )
         {
             return;
         }
 
-        const std::string& languageCode = language_iterator->second;
+        m_currentLanguage = *languageCode;
 
-        m_language = languageCode;
-
-        if ( std::ranges::find( m_loadedLanguages, languageCode ) == m_loadedLanguages.end() )
+        // If the language is not loaded, load it.
+        if ( std::ranges::find( m_loadedLanguages, m_currentLanguage ) == m_loadedLanguages.end() )
         {
-            m_loadedLanguages.push_back( languageCode );
+            m_loadedLanguages.push_back( m_currentLanguage );
 
-            const std::string languageFilePath = m_basePath + languageCode + ".json";
-
-            std::optional< std::ifstream > fileStream = FileManager::getFileStream(
-                languageFilePath );
+            std::optional< std::ifstream > fileStream = FileManager::GetFileStream(
+                m_basePath + m_currentLanguage + ".json" );
 
             if ( fileStream.has_value() )
             {
-                getTranslationsFromJSONFile( *fileStream );
+                GetTranslationsFromJsonFile( *fileStream );
             }
         }
     }
 
     /**
-     * \brief Constructs a translation manager with a base path.
+     * \brief Checks if the given language is valid. The language is valid if it is in the list of valid language codes.
+     * \param targetLanguage_ the language to check.
+     * \return The language code if the language is valid, or nullopt if it is not.
+     */
+    std::optional< std::string > TranslationManager::IsLanguageValid( std::string targetLanguage_ ) const
+    {
+        std::ranges::transform( targetLanguage_.begin(), targetLanguage_.end(), targetLanguage_.begin(),
+                                []( const char& c_ )
+                                {
+                                    return std::tolower( c_ );
+                                } );
+
+        const auto languageIterator = m_validLanguageCodes.find( targetLanguage_ );
+
+        if ( languageIterator == m_validLanguageCodes.end() )
+        {
+            return std::nullopt;
+        }
+
+        return languageIterator->second;
+    }
+
+    /**
+     * \brief Constructs a translation manager with a base path (current working dir\translations\).
      */
     TranslationManager::TranslationManager() : m_basePath( WORKING_DIR + "\\translations\\" )
     {
-        loadLanguageCodes( m_basePath + "languages.json" );
+        if ( std::optional< std::ifstream > fileStream = FileManager::GetFileStream(
+            m_basePath + "languages.json" ); fileStream.has_value() )
+        {
+            LoadValidLanguageCodesFromJsonFile( *fileStream );
+            fileStream->close();
+        }
     }
 }
