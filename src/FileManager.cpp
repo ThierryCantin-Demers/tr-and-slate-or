@@ -53,4 +53,31 @@ namespace translation
 
         return files;
     }
+
+    //bool FileManager::UseFileFromPath( const std::string& filePath_, std::function< void( std::ifstream& ) > function_ )
+    //{
+    //    std::optional< std::ifstream > fileStream = GetFileStream(
+    //        filePath_ );
+
+    //    if ( fileStream.has_value() )
+    //    {
+    //        function_( *fileStream );
+    //        fileStream->close();
+    //        return true;
+    //    }
+
+    //    return false;
+    //}
+
+    /*template < typename Class >
+    void FileManager::UseFileFromPath( Class* object_, void ( Class::*function_ )( std::ifstream& ),
+                                       const std::string& filePath_ )
+    {
+        if ( std::optional< std::ifstream > fileStream = GetFileStream(
+            filePath_ ); fileStream.has_value() )
+        {
+            ( object_->*function_ )( *fileStream );
+            fileStream->close();
+        }
+    }*/
 }
