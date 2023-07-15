@@ -1,9 +1,10 @@
-#include "TranslationManager.h"
-#include "FileManager.h"
+#include <TranslationManager.h>
+#include <FileManager.h>
 
+#include <ranges>
 #include <fstream>
 #include <iostream>
-#include <json.hpp>
+#include <nlohmann/json.hpp>
 #include <SimpleIni.h>
 
 

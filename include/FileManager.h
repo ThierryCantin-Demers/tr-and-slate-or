@@ -1,8 +1,5 @@
 #pragma once
 
-#ifndef FILE_MANAGER_H
-#define FILE_MANAGER_H
-
 #include <string>
 #include <fstream>
 #include <optional>
@@ -26,4 +23,3 @@ namespace translation
     };
 }
 
-#endif // FILE_MANAGER_H
