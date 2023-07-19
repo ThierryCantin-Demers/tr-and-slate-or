@@ -168,7 +168,9 @@ namespace translation
 
         CSimpleIniA ini;
         ini.SetUnicode();
-        SI_Error rc = ini.LoadFile( "configs.ini" );
+
+        const std::string configFilePath = m_basePath + "configs.ini";
+        const SI_Error    rc = ini.LoadFile(configFilePath.c_str());
 
         if ( rc < 0 )
         {
