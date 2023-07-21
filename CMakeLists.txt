@@ -19,4 +19,4 @@ add_subdirectory(extern)
 target_link_libraries(${TARGET_NAME} PUBLIC nlohmann_json)
 target_link_libraries(${TARGET_NAME} PUBLIC SimpleIni)
 
-file(COPY translations DESTINATION "${CMAKE_BINARY_DIR}")
+#file(COPY translations DESTINATION "${CMAKE_BINARY_DIR}")
