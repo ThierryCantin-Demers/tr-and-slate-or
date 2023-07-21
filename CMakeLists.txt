@@ -19,4 +19,9 @@ add_subdirectory(extern)
 target_link_libraries(${TARGET_NAME} PUBLIC nlohmann_json)
 target_link_libraries(${TARGET_NAME} PUBLIC SimpleIni)
 
-#file(COPY translations DESTINATION "${CMAKE_BINARY_DIR}")
+set(TRANSLATIONS_DIR_NAME translations)
+set(TRANSLATIONS_DIR_PATH ${CMAKE_BINARY_DIR}/${TRANSLATIONS_DIR_NAME})
+
+if(NOT (EXISTS "${TRANSLATIONS_DIR_PATH}" AND IS_DIRECTORY "${TRANSLATIONS_DIR_PATH}"))
+    file(COPY translations DESTINATION "${CMAKE_BINARY_DIR}")
+endif()
