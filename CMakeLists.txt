@@ -10,14 +10,20 @@ add_library(
     src/FileManager.cpp
     )
 
+if(MSVC)
 set_property(TARGET ${TARGET_NAME} PROPERTY CXX_STANDARD 20)
+endif()
 
 target_include_directories(${TARGET_NAME} PUBLIC include)
 
-add_subdirectory(extern)
+#add_subdirectory(extern)
 
-target_link_libraries(${TARGET_NAME} PUBLIC nlohmann_json)
-target_link_libraries(${TARGET_NAME} PUBLIC SimpleIni)
+# nlohmann-json ======================================================================================
+find_package(nlohmann-json CONFIG REQUIRED)
+target_link_libraries(${TARGET_NAME} PRIVATE nlohmann-json)
+# simpleini ======================================================================================
+find_package(simpleini CONFIG REQUIRED)
+target_link_libraries(${TARGET_NAME} PRIVATE simpleini)
 
 # set(TRANSLATIONS_DIR_NAME translations)
 # set(TRANSLATIONS_DIR_PATH ${CMAKE_BINARY_DIR}/${TRANSLATIONS_DIR_NAME})
