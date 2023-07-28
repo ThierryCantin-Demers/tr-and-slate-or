@@ -19,11 +19,11 @@ target_include_directories(${TARGET_NAME} PUBLIC include)
 #add_subdirectory(extern)
 
 # nlohmann-json ======================================================================================
-find_package(nlohmann-json CONFIG REQUIRED)
-target_link_libraries(${TARGET_NAME} PRIVATE nlohmann-json)
-# simpleini ======================================================================================
-find_package(simpleini CONFIG REQUIRED)
-target_link_libraries(${TARGET_NAME} PRIVATE simpleini)
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(${TARGET_NAME} PRIVATE nlohmann_json::nlohmann_json)
+# SimpleIni ======================================================================================
+find_path(SIMPLEINI_INCLUDE_DIRS "ConvertUTF.c")
+target_include_directories(${TARGET_NAME} PRIVATE ${SIMPLEINI_INCLUDE_DIRS})
 
 # set(TRANSLATIONS_DIR_NAME translations)
 # set(TRANSLATIONS_DIR_PATH ${CMAKE_BINARY_DIR}/${TRANSLATIONS_DIR_NAME})
