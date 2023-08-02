@@ -16,24 +16,24 @@ endif()
 
 target_include_directories(${TARGET_NAME} PUBLIC include)
 
-#add_subdirectory(extern)
+include(cmake/CPM.cmake)
 
 # nlohmann-json ======================================================================================
-find_package(nlohmann_json CONFIG REQUIRED)
+CPMAddPackage(
+  NAME          "nlohmann_json"
+  VERSION       "3.11.2"
+  GITHUB_REPOSITORY "nlohmann/json"
+)
+
 target_link_libraries(${TARGET_NAME} PRIVATE nlohmann_json::nlohmann_json)
-# SimpleIni ======================================================================================
-find_path(SIMPLEINI_INCLUDE_DIRS "ConvertUTF.c")
-target_include_directories(${TARGET_NAME} PRIVATE ${SIMPLEINI_INCLUDE_DIRS})
+# ====================================================================================================
 
+# SimpleIni ==========================================================================================
+CPMAddPackage(
+  NAME          "SimpleIni"
+  VERSION       "4.20"
+  GITHUB_REPOSITORY "brofield/simpleini"
+)
 
-install(TARGETS ${TARGET_NAME} EXPORT ${TARGET_NAME}-targets)
-install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-install(EXPORT ${TARGET_NAME}-targets
-	NAMESPACE ${TARGET_NAME}::
-	DESTINATION ${CMAKE_INSTALL_DATADIR}/${TARGET_NAME})
-# set(TRANSLATIONS_DIR_NAME translations)
-# set(TRANSLATIONS_DIR_PATH ${CMAKE_BINARY_DIR}/${TRANSLATIONS_DIR_NAME})
-
-# if(NOT (EXISTS "${TRANSLATIONS_DIR_PATH}" AND IS_DIRECTORY "${TRANSLATIONS_DIR_PATH}"))
-#     file(COPY translations DESTINATION "${CMAKE_BINARY_DIR}")
-# endif()
+target_link_libraries(${TARGET_NAME} PRIVATE SimpleIni)
+# ====================================================================================================
