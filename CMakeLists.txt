@@ -25,7 +25,9 @@ CPMFindPackage(
   GITHUB_REPOSITORY "nlohmann/json"
 )
 
+if(NOT TARGET nlohmann_json::nlohmann_json)
 target_link_libraries(${TARGET_NAME} PRIVATE nlohmann_json::nlohmann_json)
+endif()
 # ====================================================================================================
 
 # SimpleIni ==========================================================================================
@@ -35,5 +37,7 @@ CPMFindPackage(
   GITHUB_REPOSITORY "brofield/simpleini"
 )
 
+if(NOT TARGET SimpleIni)
 target_link_libraries(${TARGET_NAME} PRIVATE SimpleIni)
+endif()
 # ====================================================================================================
