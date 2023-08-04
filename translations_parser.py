@@ -67,9 +67,9 @@ def get_all_occurrences_of_function_from_file(file_path, function_name):
 
 # Get all the strings to translate from all the files in the current directory (in cpp, h, hpp files)
 def parse_files():
-    print('Parsing files...')
     # Get the current path
-    base_path = pathlib.Path(__file__).parent.absolute()
+    base_path = pathlib.Path(__file__).parent.absolute() / "src"
+    print('Parsing files in directory: ' + str(base_path) + '\n')
 
     # Get the paths of all the files in that directory (recursively)
     file_paths = [path for path in base_path.glob('**/*')]
@@ -131,7 +131,6 @@ def run():
     else:
         print("Checking translations for language code: " + language_code_to_translate_to + "\n")
         write_untranslated_strings_to_file(strings_to_translate, language_code_to_translate_to)
-
 
 
 if __name__ == '__main__':
