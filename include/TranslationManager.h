@@ -6,6 +6,7 @@
 #include "FileManager.h"
 
 #define TR(str) translation::TranslationManager::GetInstance().GetTranslation(str)
+#define TRC(str) translation::TranslationManager::GetInstance().GetTranslation(str).c_str()
 
 namespace translation
 {
