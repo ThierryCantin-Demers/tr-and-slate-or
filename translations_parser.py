@@ -80,6 +80,7 @@ def parse_files():
     strings_to_translate = []
     for path in code_files_paths:
         strings_to_translate = get_all_occurrences_of_function_from_file(path, "TR")
+        strings_to_translate.extend(get_all_occurrences_of_function_from_file(path, "TRC"))
 
     return list(set(strings_to_translate))
 
