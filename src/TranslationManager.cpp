@@ -40,7 +40,7 @@ namespace translation
                                         return std::tolower( c );
                                     } );
 
-            m_validLanguageCodes[ languageName ] = language.value();
+            m_validLanguageCodes[ languageName ] = to_string(language.value());
         }
 
         languageCodesFileStream_.close();
@@ -81,7 +81,7 @@ namespace translation
 
         for ( const auto& translation : json.items() )
         {
-            m_loadedTranslations[ translation.key() ][ m_currentLanguage ] = translation.value();
+            m_loadedTranslations[ translation.key() ][ m_currentLanguage ] = to_string(translation.value());
         }
 
         fileStream_.close();
